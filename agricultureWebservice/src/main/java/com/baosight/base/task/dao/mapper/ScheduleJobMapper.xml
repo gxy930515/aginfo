@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baosight.base.task.dao.ScheduleJobMapper" >
+  <resultMap id="BaseResultMap" type="com.baosight.base.task.domain.ScheduleJob" >
+    <id column="JOB_ID" property="jobId" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="VARCHAR" />
+    <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+    <result column="JOB_GROUP" property="jobGroup" jdbcType="VARCHAR" />
+    <result column="JOB_STATUS" property="jobStatus" jdbcType="VARCHAR" />
+    <result column="CRON_EXPRESSION" property="cronExpression" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="BEAN_CLASS" property="beanClass" jdbcType="VARCHAR" />
+    <result column="IS_CONCURRENT" property="isConcurrent" jdbcType="VARCHAR" />
+    <result column="SPRING_ID" property="springId" jdbcType="VARCHAR" />
+    <result column="METHOD_NAME" property="methodName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      JOB_ID, CREATE_TIME, UPDATE_TIME, JOB_NAME, JOB_GROUP, JOB_STATUS, CRON_EXPRESSION, 
+      DESCRIPTION, BEAN_CLASS, IS_CONCURRENT, SPRING_ID, METHOD_NAME
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.baosight.base.task.domain.ScheduleJobQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TASK_SCHEDULE_JOB
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    JOB_ID,CREATE_TIME,UPDATE_TIME,JOB_NAME,JOB_GROUP,JOB_STATUS,CRON_EXPRESSION,DESCRIPTION,BEAN_CLASS,IS_CONCURRENT,SPRING_ID,METHOD_NAME
+    from TASK_SCHEDULE_JOB
+    where JOB_ID = #{jobId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TASK_SCHEDULE_JOB
+    where JOB_ID = #{jobId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.baosight.base.task.domain.ScheduleJobQuery" >
+    delete from TASK_SCHEDULE_JOB
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.baosight.base.task.domain.ScheduleJob" >
+    insert into TASK_SCHEDULE_JOB (JOB_ID, CREATE_TIME, UPDATE_TIME, 
+      JOB_NAME, JOB_GROUP, JOB_STATUS, 
+      CRON_EXPRESSION, DESCRIPTION, BEAN_CLASS, 
+      IS_CONCURRENT, SPRING_ID, METHOD_NAME
+      )
+    values (#{jobId,jdbcType=DECIMAL}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
+      #{jobName,jdbcType=VARCHAR}, #{jobGroup,jdbcType=VARCHAR}, #{jobStatus,jdbcType=VARCHAR}, 
+      #{cronExpression,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{beanClass,jdbcType=VARCHAR}, 
+      #{isConcurrent,jdbcType=VARCHAR}, #{springId,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.baosight.base.task.domain.ScheduleJob" >
+    insert into TASK_SCHEDULE_JOB
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="jobId != null" >
+        JOB_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="jobName != null" >
+        JOB_NAME,
+      </if>
+      <if test="jobGroup != null" >
+        JOB_GROUP,
+      </if>
+      <if test="jobStatus != null" >
+        JOB_STATUS,
+      </if>
+      <if test="cronExpression != null" >
+        CRON_EXPRESSION,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="beanClass != null" >
+        BEAN_CLASS,
+      </if>
+      <if test="isConcurrent != null" >
+        IS_CONCURRENT,
+      </if>
+      <if test="springId != null" >
+        SPRING_ID,
+      </if>
+      <if test="methodName != null" >
+        METHOD_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="jobId != null" >
+        #{jobId,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null" >
+        #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobStatus != null" >
+        #{jobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null" >
+        #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="beanClass != null" >
+        #{beanClass,jdbcType=VARCHAR},
+      </if>
+      <if test="isConcurrent != null" >
+        #{isConcurrent,jdbcType=VARCHAR},
+      </if>
+      <if test="springId != null" >
+        #{springId,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null" >
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.baosight.base.task.domain.ScheduleJobQuery" resultType="java.lang.Integer" >
+    select count(*) from TASK_SCHEDULE_JOB
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TASK_SCHEDULE_JOB
+    <set >
+      <if test="record.jobId != null" >
+        JOB_ID = #{record.jobId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobName != null" >
+        JOB_NAME = #{record.jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobGroup != null" >
+        JOB_GROUP = #{record.jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobStatus != null" >
+        JOB_STATUS = #{record.jobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cronExpression != null" >
+        CRON_EXPRESSION = #{record.cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        DESCRIPTION = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beanClass != null" >
+        BEAN_CLASS = #{record.beanClass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isConcurrent != null" >
+        IS_CONCURRENT = #{record.isConcurrent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.springId != null" >
+        SPRING_ID = #{record.springId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodName != null" >
+        METHOD_NAME = #{record.methodName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TASK_SCHEDULE_JOB
+    set JOB_ID = #{record.jobId,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=VARCHAR},
+      JOB_NAME = #{record.jobName,jdbcType=VARCHAR},
+      JOB_GROUP = #{record.jobGroup,jdbcType=VARCHAR},
+      JOB_STATUS = #{record.jobStatus,jdbcType=VARCHAR},
+      CRON_EXPRESSION = #{record.cronExpression,jdbcType=VARCHAR},
+      DESCRIPTION = #{record.description,jdbcType=VARCHAR},
+      BEAN_CLASS = #{record.beanClass,jdbcType=VARCHAR},
+      IS_CONCURRENT = #{record.isConcurrent,jdbcType=VARCHAR},
+      SPRING_ID = #{record.springId,jdbcType=VARCHAR},
+      METHOD_NAME = #{record.methodName,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.baosight.base.task.domain.ScheduleJob" >
+    update TASK_SCHEDULE_JOB
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        JOB_NAME = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null" >
+        JOB_GROUP = #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobStatus != null" >
+        JOB_STATUS = #{jobStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null" >
+        CRON_EXPRESSION = #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="beanClass != null" >
+        BEAN_CLASS = #{beanClass,jdbcType=VARCHAR},
+      </if>
+      <if test="isConcurrent != null" >
+        IS_CONCURRENT = #{isConcurrent,jdbcType=VARCHAR},
+      </if>
+      <if test="springId != null" >
+        SPRING_ID = #{springId,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null" >
+        METHOD_NAME = #{methodName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where JOB_ID = #{jobId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.baosight.base.task.domain.ScheduleJob" >
+    update TASK_SCHEDULE_JOB
+    set CREATE_TIME = #{createTime,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=VARCHAR},
+      JOB_NAME = #{jobName,jdbcType=VARCHAR},
+      JOB_GROUP = #{jobGroup,jdbcType=VARCHAR},
+      JOB_STATUS = #{jobStatus,jdbcType=VARCHAR},
+      CRON_EXPRESSION = #{cronExpression,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      BEAN_CLASS = #{beanClass,jdbcType=VARCHAR},
+      IS_CONCURRENT = #{isConcurrent,jdbcType=VARCHAR},
+      SPRING_ID = #{springId,jdbcType=VARCHAR},
+      METHOD_NAME = #{methodName,jdbcType=VARCHAR}
+    where JOB_ID = #{jobId,jdbcType=DECIMAL}
+  </update>
+</mapper>
